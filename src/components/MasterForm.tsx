@@ -14,6 +14,12 @@ interface FormState {
     toppings: Map<string, boolean>;
     usedToppings: number;
 }
+
+/*  
+    Masterform is the multi step form containing 4 distinct
+    steps to allow the user to switch screens between selecting
+    their pizza size, crust and toppings to finally see their confirmation
+*/
   
 class MasterForm extends React.Component<{}, FormState> {
   constructor(props:any) {

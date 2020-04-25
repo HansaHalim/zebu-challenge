@@ -10,9 +10,26 @@ interface GroupProps {
     nextButton:() => void; 
     modifyState:(stateName:string, value:any) => void;
     modifyToppings: (topping:string, add:boolean) => boolean;
-  }
+}
+
+interface GroupState {
+  sizes:Array<any>;
+  crusts:Array<any>;
+  toppings:Array<any>;
+}
+
+/*
+    GroupItems is to group items together, these items can include
+    the toppings, all different sizes, and all crust types. This is just
+    to wrap the individual items together.
+
+    Note that three constant variables below ('sizes', 'crust', 'toppings')
+    are obtained from constants, this can be changed to accept JSON formats if we were
+    to link this to an actuall backend server. This allows dynamic modifications to update 
+    pizza sizes, crusts, and toppings.
+*/
   
-class GroupItems extends React.Component<GroupProps, {}> {
+class GroupItems extends React.Component<GroupProps, GroupState> {
   renderData(currentStep:number) {
     let stepSelection = crust;
     let step = "";

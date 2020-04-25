@@ -1,7 +1,42 @@
-# zebu-challenge
-Make a Pizza Online App
+## Zebu Coding Challenge
 
-#### Description
+### Live Demo: 
+
+### Code Structure
+
+Inside App.tsx We have MasterForm which is the multistep form containing the 4 screens.
+MasterForm will import the 4 steps from the Steps/ folder which contains the function to display the screen.
+Each tsx file in Steps/ will import from GroupItems which will group either Box (to hold selection items) or toppings.
+The final screen will import from ToppingsSummary to generate a list of toppings.
+
+```text
+zebu-challenge/
+├─ public/
+├─ src/
+│   ├─ App.tsx
+│   ├─ App.css
+│   ├─ index.tsx
+│   ├─ index.css
+│   ├─ static/
+│   └─ components/
+│       ├─ Box.tsx
+│       ├─ GroupItems.tsx
+│       ├─ MasterForm.tsx
+│       ├─ constants.ts
+│       ├─ Steps/
+│       │   ├─ Step1.tsx
+│       │   ├─ Step2.tsx
+│       │   ├─ Step3.tsx
+│       │   └─ Step4.tsx
+│       └─ Toppings/
+│           ├─ Toppings.tsx
+│           └─ ToppingsSummary.tsx       
+├─ package.json
+├─ package-lock.json
+└─ tsconfig.json
+```
+
+#### App Specifications
 
 Screens:
 - Select pizza size
@@ -18,7 +53,10 @@ There are 3 sizes:
 - Thin (+ $2)
 - Thick (+ $4)
 
-to be continued...
+With 10 different toppings where the first 3 toppings are free of charge and then its $0.5 each thereafter. Small pizza has a maximum of 
+5 toppings, medium has 7, and large has 9. The user can only choose 1 topping each with no repetition.
+
+After selection is done, user will be given a review of their pizza containing all detailed information and total price.
 
 ## Build/Run
 
