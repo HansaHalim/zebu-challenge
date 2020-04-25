@@ -1,13 +1,12 @@
 import React from 'react';
 
 class ToppingsSummary extends React.Component<{data:any},{}> {
-
   renderToppings(stuff:any) {
     let buffer:any = []
     // We use buffer since forEach doesn't return anything
     stuff.forEach((value: boolean, key: string) => {
       if(value === true) {
-        buffer.push(<li style={{alignItems:'left'}}>{key}</li>);
+        buffer.push(<li>{key}</li>);
       }
     });
 

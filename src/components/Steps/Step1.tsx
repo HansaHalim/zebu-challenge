@@ -8,7 +8,10 @@ function Step1(props:any) {
   return(
     <div>
       <p style={{margin:'0px'}}>Choose Pizza Size</p> 
-      <GroupItems data={props.state} nextButton={props.nextButton} modifyState={props.modifyState} modifyToppings={props.modifyToppings}></GroupItems>
+      <GroupItems data={props.state} 
+                  nextButton={props.nextButton} 
+                  modifyState={props.modifyState} 
+                  modifyToppings={props.modifyToppings}></GroupItems>
       <p>Subtotal: ${props.state.basePrice}</p>
     </div>
   );

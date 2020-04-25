@@ -3,19 +3,7 @@ import Step1 from "./Steps/Step1";
 import Step2 from "./Steps/Step2";
 import Step3 from "./Steps/Step3";
 import Step4 from "./Steps/Step4";
-
-var toppingsList = [
-    { topping: 'Pepperoni', selected: false },
-    { topping: 'Mushrooms', selected: false },
-    { topping: 'Onions', selected: false },
-    { topping: 'Sausage', selected: false },
-    { topping: 'Bacon', selected: false },
-    { topping: 'Extra cheese', selected: false },
-    { topping: 'Black olives', selected: false },
-    { topping: 'Green peppers', selected: false },
-    { topping: 'Pineapple', selected: false },
-    { topping: 'Spinach', selected: false }
-  ];
+import {toppingsList} from "./constants";
 
 interface FormState {
     currentStep: number;
@@ -32,14 +20,16 @@ class MasterForm extends React.Component<{}, FormState> {
     super(props)
     this.state = {
       currentStep: 1,
-      basePrice: 0,
-      totalPrice: 0,
+      basePrice: 0, // This is to keep track the price of size + crust only
+      totalPrice: 0, // Total price with toppings
       size: "",
       crust: "",
       toppings: new Map(),
       usedToppings: 0
     };
 
+    // Below is to copy the toppings hashmap from a
+    // constant into the hashmap in this FormState
     const toppings = this.state.toppings;
     toppingsList.forEach((base:any) => {
       toppings.set(base.topping, base.selected);
@@ -47,15 +37,18 @@ class MasterForm extends React.Component<{}, FormState> {
     this.setState({toppings: toppings});
   }
   
+  // To move into the next page/step
   _next = () => {
     let currentStep = this.state.currentStep
-    currentStep = currentStep >= 2 ? 3: currentStep + 1
+    currentStep = currentStep >= 3 ? 4: currentStep + 1
     console.log("next page")
     this.setState({
       currentStep: currentStep
     })
   }
 
+  // We pass this function to the Topping class to allow it
+  // to modify the state in this MasterForm
   // Add == true means add topping, false is to remove.
   modifyToppings = (topping:string, add:boolean) => {
     let maxTop = 5;
@@ -75,21 +68,21 @@ class MasterForm extends React.Component<{}, FormState> {
         alert(error)
         return false;
       }
-      if(toppings.get(topping) === false) {
+      if(toppings.get(topping) === false) { // Making sure topping was not selected
         toppings.set(topping, true);
         usedToppings = usedToppings + 1;
         this.setState({toppings: toppings, usedToppings: usedToppings});
       }
     } else {
       // Remove topping
-      if(toppings.get(topping) === true) {
+      if(toppings.get(topping) === true) { // Making sure topping is selected
         toppings.set(topping, false);
         usedToppings = usedToppings - 1;
         this.setState({toppings: toppings, usedToppings: usedToppings});
       }
     }
     
-    // Update price:
+    // Update total price:
     if(usedToppings > 3) {
       const totalPrice = this.state.basePrice + (usedToppings - 3)*0.5;
       this.setState({totalPrice: totalPrice});
@@ -98,39 +91,29 @@ class MasterForm extends React.Component<{}, FormState> {
       this.setState({totalPrice: this.state.basePrice});
     }
 
-    console.log("Toppings now: " + this.state.usedToppings)
     return true;
   }
 
-  // Allows to modify the state in MasterForm
+  // We pass this function as props to allow other
+  // classes to modify the state in this MasterForm
   modifyState = (stateName:string, value:any) => {
     this.setState({[stateName]: value} as Pick<FormState, keyof FormState>);
-    console.log(this.state.size);
-    console.log(this.state.crust);
-    console.log(this.state.totalPrice);
   }
 
-  _review = () => {
-    let currentStep = this.state.currentStep
-    currentStep = currentStep >= 3 ? 4: currentStep + 1
-    this.setState({
-      currentStep: currentStep
-    })
+  // Review Button will only be shown on toppings page (Step 3)
+  reviewButton() {
+    let currentStep = this.state.currentStep;
+    if(currentStep === 3){
+      return (
+        <button
+          className="button"
+          type="button" onClick={this._next}>
+            Review
+          </button>
+      )
+    }
+    return null;
   }
-
-reviewButton() {
-  let currentStep = this.state.currentStep;
-  if(currentStep === 3){
-    return (
-      <button
-        className="button"
-        type="button" onClick={this._review}>
-          Review
-        </button>
-    )
-  }
-  return null;
-}
   
   render() {    
     return (
@@ -142,7 +125,7 @@ reviewButton() {
           state={this.state} nextButton={this._next} modifyState={this.modifyState}
         />
         <Step3
-          state={this.state} nextButton={this._next} modifyToppings={this.modifyToppings} reviewButton={this._review}
+          state={this.state} nextButton={this._next} modifyToppings={this.modifyToppings}
         />
         <Step4
           state={this.state} nextButton={this._next} modifyToppings={this.modifyToppings} 
