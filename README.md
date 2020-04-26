@@ -47,7 +47,7 @@ Source Code: (https://github.com/HansaHalim/zebu-challenge-backend)
 Only the GET requests are implemented here to allow our frontend to retrieve the data. In the backend, the data are
 retrieved from a csv file, although this can be modified to fetch from different types of databases.
 
-#### App Specifications
+### App Specifications
 
 Screens:
 - Select pizza size
