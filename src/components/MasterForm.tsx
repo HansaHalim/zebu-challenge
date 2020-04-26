@@ -3,7 +3,6 @@ import Step1 from "./Steps/Step1";
 import Step2 from "./Steps/Step2";
 import Step3 from "./Steps/Step3";
 import Step4 from "./Steps/Step4";
-import {toppingsList} from "./constants";
 
 interface FormState {
     currentStep: number;
@@ -11,6 +10,7 @@ interface FormState {
     totalPrice: number;
     size: string;
     crust: string;
+    response: Array<any>;
     toppings: Map<string, boolean>;
     usedToppings: number;
 }
@@ -30,15 +30,27 @@ class MasterForm extends React.Component<{}, FormState> {
       totalPrice: 0, // Total price with toppings
       size: "",
       crust: "",
+      response: Array(0).fill(null), // Placeholder to hold data from backend
       toppings: new Map(),
       usedToppings: 0
     };
+  }
 
-    // Below is to copy the toppings hashmap from a
-    // constant into the hashmap in this FormState
+
+  async componentDidMount () {
+    await fetch('http://zebu-backend.halim.ca/toppingsList')
+      .then(response => response.json())
+      .then(response => this.setState({ 
+        response: response
+    }));
+
+    // Below is to copy the toppings array from response
+    // into the hashmap in this FormState
+    const toppingsList = this.state.response;
     const toppings = this.state.toppings;
     toppingsList.forEach((base:any) => {
-      toppings.set(base.topping, base.selected);
+      let convertBoolean = base.selected === "true"
+      toppings.set(base.topping, convertBoolean);
     });
     this.setState({toppings: toppings});
   }
@@ -47,7 +59,6 @@ class MasterForm extends React.Component<{}, FormState> {
   _next = () => {
     let currentStep = this.state.currentStep
     currentStep = currentStep >= 3 ? 4: currentStep + 1
-    console.log("next page")
     this.setState({
       currentStep: currentStep
     })
@@ -96,7 +107,6 @@ class MasterForm extends React.Component<{}, FormState> {
       // less than or equal to 3 toppings are free
       this.setState({totalPrice: this.state.basePrice});
     }
-
     return true;
   }
 

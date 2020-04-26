@@ -1,6 +1,6 @@
 ## Zebu Coding Challenge
 
-### Live Demo: 
+### Live Demo: (http://zebu.halim.ca/)
 
 ### Code Structure
 
@@ -35,6 +35,16 @@ zebu-challenge/
 ├─ package-lock.json
 └─ tsconfig.json
 ```
+
+### Backend
+Information such as list of pizza size, crust, and toppings are dynamically fetched from the backend server.
+The backend is written in python using flask.
+
+Server Link: (http://zebu-backend.halim.ca/)
+Source Code: (https://github.com/HansaHalim/zebu-challenge-backend)
+
+Only the GET requests are implemented here to allow our frontend to retrieve the data. In the backend, the data are
+retrieved from a csv file, although this can be modified to fetch from different types of databases.
 
 #### App Specifications
 

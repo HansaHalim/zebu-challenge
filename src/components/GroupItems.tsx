@@ -1,9 +1,6 @@
 import React from 'react';
 import Box from "./Box";
 import Toppings from "./Toppings/Toppings";
-import {sizes} from "./constants";
-import {crust} from "./constants";
-import {toppings} from "./constants";
 
 interface GroupProps {
     data:any; 
@@ -30,23 +27,48 @@ interface GroupState {
 */
   
 class GroupItems extends React.Component<GroupProps, GroupState> {
+  constructor(props:any) {
+    super(props)
+    this.state = {
+      sizes:Array(0).fill(null),
+      crusts:Array(0).fill(null),
+      toppings:Array(0).fill(null)
+    };
+  }
+
+  componentDidMount () {
+    fetch('http://zebu-backend.halim.ca/size')
+      .then(response => response.json())
+      .then(response => this.setState({ 
+        sizes: response
+      }));
+    fetch('http://zebu-backend.halim.ca/crust')
+      .then(response => response.json())
+      .then(response => this.setState({ 
+        crusts: response
+      }));
+    fetch('http://zebu-backend.halim.ca/toppings')
+      .then(response => response.json())
+      .then(response => this.setState({ 
+        toppings: response
+      }));
+  }
+
   renderData(currentStep:number) {
-    let stepSelection = crust;
+    let stepSelection = this.state.crusts; // Just to initialize
     let step = "";
     if(currentStep === 1) {
-      stepSelection = sizes;
+      stepSelection = this.state.sizes;
       step = "size";
     } else if(currentStep === 2) {
-      stepSelection = crust;
+      stepSelection = this.state.crusts;
       step = "crust";
     } else if(currentStep === 3) {
-      stepSelection = toppings;
+      stepSelection = this.state.toppings;
       step = "toppings";
       return stepSelection.map((base:any) => {
         return <Toppings data={this.props.data} 
-                         step={step} 
                          option={base.option} 
-                         price={base.price} 
                          nextButton={this.props.nextButton} 
                          modifyToppings={this.props.modifyToppings}/>
       });
@@ -55,7 +77,7 @@ class GroupItems extends React.Component<GroupProps, GroupState> {
       return <Box data={this.props.data} 
                   step={step} 
                   option={base.option} 
-                  price={base.price} 
+                  price={Number(base.price)} 
                   nextButton={this.props.nextButton} 
                   modifyState={this.props.modifyState}/>
     });

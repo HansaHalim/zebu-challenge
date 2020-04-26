@@ -1,3 +1,7 @@
+// These constants are not currently being used, but is displayed
+// here to demonstrate what they look like when fetched from the
+// backend server
+
 export const toppingsList = [
     { topping: 'Pepperoni', selected: false },
     { topping: 'Mushrooms', selected: false },

@@ -2,9 +2,7 @@ import React from 'react';
 
 interface ToppingsProps {
   data:any;
-  step:string;
   option:string;
-  price:number;
   nextButton: () => void;
   modifyToppings: (topping:string, add:boolean) => boolean;
 }
@@ -21,8 +19,7 @@ class Toppings extends React.Component<ToppingsProps,ToppingsState> {
     }
   }
 
-  addOption(step:string, option:string, price:number) {
-    console.log(this.props.option);
+  addOption(option:string) {
     if(this.state.color === "Peru") {
       // Unselect Topping
       if(!this.props.modifyToppings(option, false)) {
@@ -40,7 +37,7 @@ class Toppings extends React.Component<ToppingsProps,ToppingsState> {
 
   render() {
     return (
-      <div className="topping" onClick={() => this.addOption(this.props.step, this.props.option, this.props.price)}>
+      <div className="topping" onClick={() => this.addOption(this.props.option)}>
         <div
           className="box"
           style={{display: 'flex',
