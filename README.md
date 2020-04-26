@@ -1,6 +1,7 @@
 ## Zebu Coding Challenge
 
 ### Live Demo: (http://zebu.halim.ca/)
+This app is deployed on Heroku.
 
 ### Code Structure
 
@@ -38,7 +39,7 @@ zebu-challenge/
 
 ### Backend
 Information such as list of pizza size, crust, and toppings are dynamically fetched from the backend server.
-The backend is written in python using flask.
+The backend is written in python using flask and is deployed on heroku.
 
 Server Link: (http://zebu-backend.halim.ca/)
 Source Code: (https://github.com/HansaHalim/zebu-challenge-backend)
